@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.local
+dist/
+coverage/
+*.log
+__pycache__/
+*.pyc
+backend/.pydeps/
+backend/import_outputs/
+backend/node_modules/
+frontend/node_modules/
+frontend/dist/

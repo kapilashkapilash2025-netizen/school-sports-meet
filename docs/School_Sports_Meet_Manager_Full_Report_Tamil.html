@@ -1,0 +1,692 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School Sports Meet Manager - Full Tamil Report</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm;
+    }
+
+    :root {
+      --maroon-900: #4a1219;
+      --maroon-800: #6b1f28;
+      --maroon-700: #8b2e2e;
+      --gold-500: #f2c94c;
+      --gold-200: #fff3c7;
+      --ink: #29161b;
+      --muted: #6b4b52;
+      --line: #e6d2d2;
+      --paper: #fffaf7;
+      --soft: #fff4ef;
+      --green: #2f9e44;
+      --red: #d34b4b;
+      --blue: #3478c8;
+      --yellow: #e0b128;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Nirmala UI", "Latha", "Segoe UI", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+      font-size: 11.4pt;
+    }
+
+    .cover {
+      min-height: 250mm;
+      display: grid;
+      align-content: space-between;
+      background:
+        radial-gradient(circle at top right, rgba(242,201,76,0.24), transparent 28%),
+        linear-gradient(145deg, #fff8f2 0%, #f8e7e2 54%, #f4dad4 100%);
+      border: 1px solid #e7cccc;
+      border-radius: 24px;
+      padding: 20mm 16mm;
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: center;
+      gap: 14mm;
+    }
+
+    .logo-shell {
+      width: 34mm;
+      height: 34mm;
+      border-radius: 12mm;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #fffefe, #f7ece8);
+      border: 1px solid #ebd5d1;
+      box-shadow: 0 8px 24px rgba(107,31,40,0.08);
+      flex: 0 0 auto;
+    }
+
+    .logo-shell img {
+      width: 22mm;
+      height: 22mm;
+      object-fit: contain;
+    }
+
+    .kicker {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(242,201,76,0.22);
+      color: var(--maroon-900);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 9pt;
+    }
+
+    h1, h2, h3, h4 { margin: 0 0 8px; }
+    h1 {
+      font-size: 25pt;
+      line-height: 1.15;
+      color: var(--maroon-900);
+      margin-top: 8px;
+    }
+
+    h2 {
+      font-size: 16pt;
+      color: var(--maroon-800);
+      margin-top: 18px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid rgba(242,201,76,0.55);
+    }
+
+    h3 {
+      font-size: 12.5pt;
+      color: var(--maroon-800);
+      margin-top: 8px;
+    }
+
+    p { margin: 0 0 9px; }
+    .muted { color: var(--muted); }
+
+    .meta-grid,
+    .two-col,
+    .three-col,
+    .stats-grid,
+    .feature-grid,
+    .logic-grid,
+    .page-grid,
+    .component-grid,
+    .db-grid,
+    .az-grid,
+    .flow-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 14px; }
+    .two-col { grid-template-columns: 1.15fr 0.85fr; }
+    .three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .logic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .page-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .component-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .db-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .az-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .flow-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 8px 18px rgba(107,31,40,0.05);
+    }
+
+    .soft-card {
+      background: var(--soft);
+      border: 1px solid #ecd8d5;
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+
+    .stat {
+      background: linear-gradient(180deg, #fffefc 0%, #fff2e7 100%);
+      border: 1px solid #ecd7c3;
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 18pt;
+      color: var(--maroon-800);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 9pt;
+      font-weight: 700;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .badge.red { background: rgba(211,75,75,0.12); color: #8f2727; }
+    .badge.blue { background: rgba(52,120,200,0.12); color: #205799; }
+    .badge.yellow { background: rgba(224,177,40,0.18); color: #7c5c00; }
+    .badge.green { background: rgba(47,158,68,0.14); color: #1f7a33; }
+    .badge.maroon { background: rgba(139,46,46,0.12); color: var(--maroon-800); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 10.1pt;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 8px 9px;
+      border-bottom: 1px solid #eee1de;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f8e4df;
+      color: var(--maroon-900);
+      font-weight: 700;
+    }
+
+    ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin: 4px 0; }
+
+    .section {
+      margin-top: 14px;
+      page-break-inside: avoid;
+    }
+
+    .flow-step {
+      position: relative;
+      background: linear-gradient(180deg, #fffdfb 0%, #fff1e8 100%);
+      border: 1px solid #ead6d0;
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 94px;
+    }
+
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18pt;
+      color: var(--gold-500);
+      font-weight: 700;
+    }
+
+    .flow-step:last-child::after { display: none; }
+
+    .page-break { page-break-before: always; }
+
+    .footer-note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(139,46,46,0.96), rgba(95,28,35,0.96));
+      color: #fff7ef;
+    }
+
+    .designer {
+      font-size: 12pt;
+      font-weight: 700;
+      color: var(--gold-500);
+    }
+
+    .small { font-size: 9.6pt; }
+    .center { text-align: center; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div>
+      <div class="cover-top">
+        <div class="logo-shell">
+          <img src="file:///C:/Users/kapil/OneDrive/Desktop/vvc26/frontend/public/assets/logo.png.jpg" alt="VVC Logo" />
+        </div>
+        <div>
+          <span class="kicker">Full System Report</span>
+          <h1>School Sports Meet Manager<br />முழுமையான தமிழ் திட்ட அறிக்கை</h1>
+          <p class="muted">Vavuniya Vipulanantha College Sports Meet Management Software பற்றி A-Z முழு விளக்கம்</p>
+        </div>
+      </div>
+
+      <div class="meta-grid">
+        <div class="soft-card">
+          <h3>திட்டத்தின் பெயர்</h3>
+          <p>School Sports Meet Manager</p>
+        </div>
+        <div class="soft-card">
+          <h3>கல்வி நிறுவனம்</h3>
+          <p>Vavuniya Vipulanantha College</p>
+        </div>
+        <div class="soft-card">
+          <h3>ஆவண வகை</h3>
+          <p>பயன்பாடு, அமைப்பு, தொழில்நுட்பம், logic, features, workflow, components, database, மற்றும் பயன்பாட்டு நோக்கம் ஆகியவற்றின் முழுமையான PDF அறிக்கை</p>
+        </div>
+        <div class="soft-card">
+          <h3>தயாரிப்பு குறிப்புரை</h3>
+          <p>இந்த ஆவணம் software codebase, pages, backend services, API routes, database schema, scoring rules, மற்றும் தற்போதைய user interface அடிப்படையில் தயார் செய்யப்பட்டது.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <div class="designer">DESIGNED BY SRIDEVAN KAPLASH 11 D VVC</div>
+      <p class="small">இந்த sports meet management software-இன் அமைப்பு, நோக்கம், செயல் முறை, மற்றும் அதன் பயன்பாட்டு மதிப்பை தெளிவாக விளக்கும் full report.</p>
+    </div>
+  </section>
+
+  <section class="section page-break">
+    <h2>1. இந்த software என்ன?</h2>
+    <div class="two-col">
+      <div class="card">
+        <p>இந்த software ஒரு பள்ளி sports meet-ஐ digital-ஆ manage செய்ய உருவாக்கப்பட்ட full-stack management system. இது students register பண்ணுவது முதல் events create பண்ணுவது, participants assign பண்ணுவது, results enter பண்ணுவது, house points கணக்கிடுவது, final champion house காட்டுவது வரை முழு செயல்முறையையும் ஒரே இடத்தில் கையாள்கிறது.</p>
+        <p>இதன் முக்கிய பலம் என்னவென்றால், பல பகுதிகள் ஒரே system-ல் இணைக்கப்பட்டுள்ளன: மாணவர் தகவல், event structure, scoring logic, result history, projector mode, leaderboard, house overview, admin access control, மற்றும் theme-based presentation.</p>
+      </div>
+      <div class="soft-card">
+        <h3>முக்கிய நோக்கம்</h3>
+        <ul>
+          <li>Sports meet data-ஐ paper-free digital முறையில் manage செய்வது</li>
+          <li>House points கணக்கீட்டை தானியங்கியாக்குவது</li>
+          <li>Admin வேலைகளை வேகமாகவும் குறைந்த பிழையுடனும் நடத்துவது</li>
+          <li>Final results மற்றும் projector presentation-ஐ அழகாக காட்டுவது</li>
+          <li>School identity-ஐ branding உடன் software-ல் பிரதிபலிப்பது</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>2. இந்த software ஏன் முக்கியம்?</h2>
+    <div class="stats-grid">
+      <div class="stat"><p>Data Centralization</p><strong>1 இடம்</strong><span>மாணவர், event, result, leaderboard அனைத்தும் ஒரே system-ல்</span></div>
+      <div class="stat"><p>Speed</p><strong>Fast</strong><span>Manual calculation மற்றும் repeated checking குறைகிறது</span></div>
+      <div class="stat"><p>Accuracy</p><strong>Auto</strong><span>Points, rank, scoring logic, totals தானாக update ஆகும்</span></div>
+      <div class="stat"><p>Presentation</p><strong>Live</strong><span>Projector mode, leaderboard, final reveal போன்றவற்றால் event feel உயர்கிறது</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>3. Main Purpose மற்றும் Work Summary</h2>
+    <div class="feature-grid">
+      <div class="card">
+        <h3>Main Purpose</h3>
+        <ul>
+          <li>School sports meet-ஐ முழுமையாக திட்டமிட்ட, கட்டுப்படுத்தப்பட்ட digital platform-ல் நடத்த உதவுவது</li>
+          <li>ஒவ்வொரு house-இன் progress-ஐ transparent-ஆ காட்டுவது</li>
+          <li>Admin மற்றும் result entry team-க்கு easy control வழங்குவது</li>
+          <li>Manual mistakes குறைத்து official result quality-ஐ உயர்த்துவது</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>இந்த software செய்யும் வேலை</h3>
+        <ul>
+          <li>Admin login</li>
+          <li>Student add, edit, delete, search</li>
+          <li>Student ID auto generation</li>
+          <li>Event creation மற்றும் official event loading</li>
+          <li>Participant registration to events</li>
+          <li>Result entry based on scoring mode</li>
+          <li>Manual house points management in Events tab</li>
+          <li>Final house leaderboard மற்றும் champion calculation</li>
+          <li>Projector mode final presentation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>4. இந்த software ஏன் easy?</h2>
+    <div class="logic-grid">
+      <div class="soft-card">
+        <h3>Adminக்கு easy ஆக்கும் காரணங்கள்</h3>
+        <ul>
+          <li>Sidebar tabs மூலம் clear navigation</li>
+          <li>Dashboard-ல் quick overview</li>
+          <li>Student search by ID or name</li>
+          <li>Event participant search with instant add</li>
+          <li>Manual points auto-save</li>
+          <li>Final result auto-calculation</li>
+          <li>Projector mode for public display</li>
+        </ul>
+      </div>
+      <div class="soft-card">
+        <h3>User experience strengths</h3>
+        <ul>
+          <li>School logo மற்றும் branding everywhere</li>
+          <li>Light/Dark theme support</li>
+          <li>House-based color identity</li>
+          <li>Premium Results tab மற்றும் live leaderboard cards</li>
+          <li>Simple forms, low training requirement</li>
+          <li>Protected routes மூலம் secure access</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section page-break">
+    <h2>5. தொழில்நுட்ப அமைப்பு</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Technology</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Frontend</td><td>React + Vite</td><td>Pages, components, navigation, data display, interactive forms</td></tr>
+        <tr><td>Backend</td><td>Node.js + Express</td><td>API routes, validation, business logic, DB transaction handling</td></tr>
+        <tr><td>Database</td><td>PostgreSQL</td><td>Students, houses, events, participants, results, manual points storage</td></tr>
+        <tr><td>HTTP Client</td><td>Axios</td><td>Frontend to backend API communication</td></tr>
+        <tr><td>Authentication</td><td>Cookie-based protected session</td><td>Admin login, logout, and protected access</td></tr>
+        <tr><td>Styling</td><td>CSS</td><td>Brand identity, themes, projector visuals, premium UI</td></tr>
+        <tr><td>Languages</td><td>JavaScript, JSX, CSS, SQL, JSON</td><td>Application logic, UI layout, database structure, package configuration</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>6. Architecture Overview</h2>
+    <div class="flow-grid">
+      <div class="flow-step"><strong>1. Login</strong><p>Admin credentials verify செய்யப்பட்ட பிறகு session தொடங்கும்</p></div>
+      <div class="flow-step"><strong>2. Data Setup</strong><p>Students, events, houses, participants போன்ற தரவுகள் load ஆகும்</p></div>
+      <div class="flow-step"><strong>3. Results & Points</strong><p>Official results மற்றும் manual house points save ஆகும்</p></div>
+      <div class="flow-step"><strong>4. Final Output</strong><p>Leaderboard, results view, projector mode, champion reveal</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>7. Frontend Pages மற்றும் அவற்றின் வேலை</h2>
+    <div class="page-grid">
+      <div class="card"><h3>Login Page</h3><p>Admin sign-in, theme toggle, school branding</p></div>
+      <div class="card"><h3>Dashboard</h3><p>Total students, events added, participants, houses, live champion preview, quick actions</p></div>
+      <div class="card"><h3>Students</h3><p>Student add/edit/delete/search, profile navigation, automatic ID generation support</p></div>
+      <div class="card"><h3>Houses</h3><p>House strength, rank, points, color identity overview</p></div>
+      <div class="card"><h3>Events</h3><p>Secondary/Primary manual event charts, event add, point edit, delete selected, audience filters</p></div>
+      <div class="card"><h3>Participants</h3><p>Event-wise participant assignment with student search and duplicate protection</p></div>
+      <div class="card"><h3>Results</h3><p>Official result entry, scoring mode based form, live leaderboard, finder tools, result history</p></div>
+      <div class="card"><h3>Leaderboard</h3><p>Final house ranking and total points</p></div>
+      <div class="card"><h3>Users</h3><p>Admin users and session information</p></div>
+      <div class="card"><h3>Admin</h3><p>Management shortcuts and meet-level control center</p></div>
+      <div class="card"><h3>Student Profile</h3><p>Detailed student information and joined event history</p></div>
+      <div class="card"><h3>Projector Mode</h3><p>Final result reveal, podium display, champion spotlight, event charts</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>8. Frontend Components</h2>
+    <div class="component-grid">
+      <div class="soft-card"><h3>Layout</h3><p>Topbar, sidebar, logo, main content shell</p></div>
+      <div class="soft-card"><h3>ProtectedRoute</h3><p>Login இல்லாமல் system tabs open ஆகாதபடி பாதுகாப்பு</p></div>
+      <div class="soft-card"><h3>StudentForm</h3><p>Student create form structure</p></div>
+      <div class="soft-card"><h3>ResultEntryForm</h3><p>Scoring mode அடிப்படையில் dynamic result input form</p></div>
+      <div class="soft-card"><h3>EventForm / support components</h3><p>Event related UI structure</p></div>
+      <div class="soft-card"><h3>Contexts</h3><p>AuthContext மற்றும் ThemeContext மூலம் global app behavior manage செய்யப்படுகிறது</p></div>
+    </div>
+  </section>
+
+  <section class="section page-break">
+    <h2>9. Backend Structure</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Folder</th>
+          <th>Role</th>
+          <th>Examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>config</td><td>Environment மற்றும் DB connection</td><td>env.js, db.js</td></tr>
+        <tr><td>routes</td><td>API endpoint mapping</td><td>authRoutes, eventRoutes, resultRoutes, leaderboardRoutes</td></tr>
+        <tr><td>controllers</td><td>Request/response handling</td><td>studentController, resultController</td></tr>
+        <tr><td>services</td><td>Main business logic</td><td>studentService, eventService, resultService, leaderboardService</td></tr>
+        <tr><td>models</td><td>Reusable SQL select templates</td><td>StudentModel, EventModel, ResultModel</td></tr>
+        <tr><td>middleware</td><td>Auth, validation, error control</td><td>authMiddleware, errorHandler, validate</td></tr>
+        <tr><td>utils</td><td>Scoring மற்றும் normalization helpers</td><td>scoring.js, scoringMode.js</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>10. முக்கிய Backend API Routes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Route Group</th>
+          <th>Main Endpoints</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Auth</td><td>/api/auth/login, /logout, /me</td><td>Admin authentication மற்றும் session check</td></tr>
+        <tr><td>Students</td><td>/api/students, /detect/:studentId, /profile/:id, /house/:houseCode, /import/preview, /import/commit</td><td>Student CRUD, search, import, detection, profile</td></tr>
+        <tr><td>Events</td><td>/api/events, /metrics, /load-official-sheet, /:id/participants</td><td>Event setup, participant management, metrics</td></tr>
+        <tr><td>Results</td><td>/api/results, /summary, /event/:eventId, /student/:studentId, /house/:houseId</td><td>Official results save and history retrieval</td></tr>
+        <tr><td>Leaderboard</td><td>/api/leaderboard, /champion, /event-breakdown, /event-breakdown/add-event, /event-breakdown/save</td><td>House ranking, manual charts, final point totals</td></tr>
+        <tr><td>System</td><td>/api/system/houses, /api/system/admins</td><td>House summaries and admin user list</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>11. Database Tables மற்றும் Data Design</h2>
+    <div class="db-grid">
+      <div class="card">
+        <h3>Core Tables</h3>
+        <ul>
+          <li><strong>admins</strong>: login users</li>
+          <li><strong>houses</strong>: house code, name, color</li>
+          <li><strong>students</strong>: student master data</li>
+          <li><strong>events</strong>: official events</li>
+          <li><strong>event_participants</strong>: eventக்கு சேர்ந்த students</li>
+          <li><strong>event_results</strong>: official scored result records</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Manual Point Tables</h3>
+        <ul>
+          <li><strong>manual_events</strong>: Events tab-ல் add செய்யும் house-point events</li>
+          <li><strong>manual_event_results</strong>: அந்த event-க்கு house-wise points</li>
+          <li><strong>house_manual_points</strong>: extra manual house point source rows</li>
+          <li><strong>athletics_results</strong>: athletics-based house points support</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section page-break">
+    <h2>12. Main Program Logic</h2>
+    <div class="logic-grid">
+      <div class="card">
+        <h3>Student Logic</h3>
+        <ul>
+          <li>Student ID user manually set செய்ய முடியாது</li>
+          <li>Gender அடிப்படையில் suffix generate ஆகும்: <strong>B</strong> அல்லது <strong>G</strong></li>
+          <li>Format: <strong>S0001B</strong> / <strong>S0001G</strong></li>
+          <li>Duplicate check: பெயர் + பிறந்த தேதி</li>
+          <li>Grade missing இருந்தாலும் birth year மூலம் resolve செய்யலாம்</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Event Logic</h3>
+        <ul>
+          <li>Official events load செய்யலாம்</li>
+          <li>Event creationக்கு age, gender, scoring mode validation</li>
+          <li>Participant duplicate protection</li>
+          <li>Event list display order pre-defined sports order அடிப்படையில் வருகிறது</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Result Logic</h3>
+        <ul>
+          <li>Selected event scoring mode backend-ல் verify செய்யப்படும்</li>
+          <li>All participants result set complete ஆக வேண்டும்</li>
+          <li>Incomplete result save செய்ய முடியாது</li>
+          <li>Event completed status update செய்யப்படும்</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Leaderboard Logic</h3>
+        <ul>
+          <li>Official results points + manual event points + athletics points + extra manual points அனைத்தும் total ஆகும்</li>
+          <li>Race-type manual event chart totals leaderboard chart breakdown-ல் exclude செய்யப்பட்டுள்ளது</li>
+          <li>Dense rank மூலம் champion order தீர்மானிக்கப்படுகிறது</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>13. Scoring Logic</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Scoring Mode</th>
+          <th>Input</th>
+          <th>Program Logic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Position</td><td>1, 2, 3...</td><td>1st = 5 points, 2nd = 3 points, 3rd = 1 point, others = 0</td></tr>
+        <tr><td>Score</td><td>Numeric score</td><td>Entered score value itself points ஆகும்</td></tr>
+        <tr><td>Outcome</td><td>Win / Loss / Draw</td><td>Win = 5, Draw = 2, Loss = 0</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>14. House Color Mapping</h2>
+    <p>System முழுவதும் house color identity consistent-ஆ maintain செய்யப்பட்டுள்ளது.</p>
+    <p>
+      <span class="badge red">Valuvar = Red</span>
+      <span class="badge blue">Navalar = Blue</span>
+      <span class="badge yellow">Barathi = Yellow</span>
+      <span class="badge green">Vipulanthar = Green</span>
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>15. Workflow Chart</h2>
+    <div class="flow-grid">
+      <div class="flow-step"><strong>Student Register</strong><p>Student add, ID generate, house assign</p></div>
+      <div class="flow-step"><strong>Event Create</strong><p>Event setup அல்லது official sheet load</p></div>
+      <div class="flow-step"><strong>Participants Add</strong><p>Students event-களில் சேர்க்கப்படுவர்</p></div>
+      <div class="flow-step"><strong>Results & Final Display</strong><p>Results enter → points calculate → leaderboard/projector update</p></div>
+    </div>
+  </section>
+
+  <section class="section page-break">
+    <h2>16. Main Features மற்றும் Sub Features</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Main Feature</th>
+          <th>Sub Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Authentication</td><td>Admin login, logout, session restore, protected pages</td></tr>
+        <tr><td>Student Management</td><td>Add, edit, delete, search, detect, profile, import preview, import commit</td></tr>
+        <tr><td>House Management</td><td>House list, student count, color label, rank, total points</td></tr>
+        <tr><td>Event Management</td><td>Create event, official event sheet load, event metrics, event list ordering</td></tr>
+        <tr><td>Participant Management</td><td>Event-wise student search, add participant, remove participant, duplicate protection</td></tr>
+        <tr><td>Results Management</td><td>Scoring mode form, complete-set validation, event result history, student and house result lookup</td></tr>
+        <tr><td>Manual Event Charts</td><td>Secondary Events, Primary Events, add manual event, edit house points, delete selected, auto-save</td></tr>
+        <tr><td>Leaderboard</td><td>Total points, champion, dense rank, live update</td></tr>
+        <tr><td>Projector Mode</td><td>Final result reveal, countdown, podium, champion spotlight, event chart display</td></tr>
+        <tr><td>System Admin</td><td>Users page, admin center, houses summary, signed-in user visibility</td></tr>
+        <tr><td>UI/Branding</td><td>School logo, light/dark themes, maroon-gold design direction</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>17. Current System Strengths</h2>
+    <ul>
+      <li>Real production-style layered architecture</li>
+      <li>Good separation between route, controller, service, database logic</li>
+      <li>Manual + official scoring இரண்டும் இணைந்த leaderboard system</li>
+      <li>Strong visual presentation for results and projector mode</li>
+      <li>Protected route security and admin-only access model</li>
+      <li>Useful school-level branding and theme support</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>18. Future Improvements (Optional)</h2>
+    <ul>
+      <li>PDF / Excel report export inside app</li>
+      <li>Role-based multi-user system</li>
+      <li>Audit log for score changes</li>
+      <li>Event schedule tab</li>
+      <li>Certificate and prize list generator</li>
+      <li>Backup and restore tools</li>
+    </ul>
+  </section>
+
+  <section class="section page-break">
+    <h2>19. A - Z முழு குறிப்புகள்</h2>
+    <div class="az-grid">
+      <div class="card"><strong>A - Admin Access</strong><p>System முழுவதையும் கட்டுப்படுத்தும் secured admin login.</p></div>
+      <div class="card"><strong>B - Branding</strong><p>School logo, maroon-gold identity, premium UI.</p></div>
+      <div class="card"><strong>C - Components</strong><p>Reusable React components மூலம் clean UI structure.</p></div>
+      <div class="card"><strong>D - Dashboard</strong><p>Quick overview மற்றும் live statistics.</p></div>
+      <div class="card"><strong>E - Events</strong><p>Official மற்றும் manual event management.</p></div>
+      <div class="card"><strong>F - Final Result</strong><p>House totals அடிப்படையில் champion display.</p></div>
+      <div class="card"><strong>G - Group Logic</strong><p>Primary/Secondary chart split மற்றும் audience filters.</p></div>
+      <div class="card"><strong>H - Houses</strong><p>Color identity, rank, points, student strength.</p></div>
+      <div class="card"><strong>I - ID Generation</strong><p>Student ID auto format with gender suffix.</p></div>
+      <div class="card"><strong>J - JavaScript</strong><p>Frontend/backend இரண்டிலும் main programming language.</p></div>
+      <div class="card"><strong>K - Key Logic</strong><p>Validation, scoring, auto-save, total calculation.</p></div>
+      <div class="card"><strong>L - Leaderboard</strong><p>Final house ranking and champion logic.</p></div>
+      <div class="card"><strong>M - Manual Points</strong><p>Events tab house-wise points control.</p></div>
+      <div class="card"><strong>N - Navigation</strong><p>Sidebar-based easy movement between modules.</p></div>
+      <div class="card"><strong>O - Official Results</strong><p>Validated result entry based on scoring mode.</p></div>
+      <div class="card"><strong>P - Participants</strong><p>Event-wise student registration module.</p></div>
+      <div class="card"><strong>Q - Quick Access</strong><p>Dashboard shortcuts மூலம் fast operation.</p></div>
+      <div class="card"><strong>R - Results</strong><p>Save, review, and project event outcomes.</p></div>
+      <div class="card"><strong>S - Students</strong><p>Core master data module.</p></div>
+      <div class="card"><strong>T - Themes</strong><p>Light and dark modes with school identity.</p></div>
+      <div class="card"><strong>U - Users</strong><p>Admin users and access visibility.</p></div>
+      <div class="card"><strong>V - Validation</strong><p>Backend checks மூலம் data integrity.</p></div>
+      <div class="card"><strong>W - Workflow</strong><p>Student → Event → Participant → Result → Leaderboard.</p></div>
+      <div class="card"><strong>X - eXperience</strong><p>Projector reveal and polished visual presentation.</p></div>
+      <div class="card"><strong>Y - Year/Sports Day Support</strong><p>Annual sports meet executionக்கு suitable system.</p></div>
+      <div class="card"><strong>Z - Zero Manual Confusion</strong><p>கணக்கீடு மற்றும் data lookup எளிமையடைகிறது.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>20. இறுதி முடிவு</h2>
+    <div class="card">
+      <p>இந்த software ஒரு சாதாரண CRUD project மட்டும் அல்ல. இது school sports meet-ஐ end-to-end manage செய்யும் integrated digital control platform. மாணவர் பதிவு, event அமைப்பு, participation management, result scoring, house totals, final leaderboard, மற்றும் public-facing projector reveal ஆகிய அனைத்தையும் ஒரே system-ல் இணைத்திருக்கிறது.</p>
+      <p>இது adminக்கு easy, schoolக்கு useful, event dayக்கு practical, and presentationக்கு professional. Software architecture-ம் நல்ல layered structure-ல் அமைக்கப்பட்டுள்ளது; future updates add பண்ணவும் இது வசதியாக உள்ளது.</p>
+      <p class="designer">DESIGNED BY SRIDEVAN KAPLASH 11 D VVC</p>
+    </div>
+  </section>
+</body>
+</html>

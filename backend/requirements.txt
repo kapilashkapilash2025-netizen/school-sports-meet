@@ -1,0 +1,9 @@
+pdf2image
+pytesseract
+opencv-python-headless
+pandas
+pillow
+regex
+pdfplumber
+flask
+flask-cors
