@@ -18,14 +18,19 @@ export default function Layout() {
   const { logout, admin } = useAuth();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const closeMobileNav = () => setMobileNavOpen(false);
 
   const handleLogout = async () => {
     await logout();
+    closeMobileNav();
     navigate("/login");
   };
 
   const runSearch = (e) => {
     e.preventDefault();
+    closeMobileNav();
     navigate(`/student-profile?q=${encodeURIComponent(search)}`);
   };
 
@@ -53,17 +58,38 @@ export default function Layout() {
         </form>
 
         <div className="topbar-actions">
+          <button
+            type="button"
+            className="mobile-nav-toggle"
+            onClick={() => setMobileNavOpen((open) => !open)}
+            aria-label="Toggle navigation"
+            aria-expanded={mobileNavOpen}
+          >
+            Menu
+          </button>
           <div className="admin-badge" title={admin?.email || "Admin"}>A</div>
         </div>
       </header>
 
-      <aside className="sidebar">
+      <div
+        className={`sidebar-overlay${mobileNavOpen ? " active" : ""}`}
+        onClick={closeMobileNav}
+        aria-hidden={!mobileNavOpen}
+      />
+
+      <aside className={`sidebar${mobileNavOpen ? " mobile-open" : ""}`}>
+        <div className="sidebar-mobile-head">
+          <strong>Navigation</strong>
+          <button type="button" className="mobile-nav-close" onClick={closeMobileNav}>Close</button>
+        </div>
+
         <nav>
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.to === "/"}
+              onClick={closeMobileNav}
               className={({ isActive }) => `sidebar-item${isActive ? " active" : ""}`}
             >
               <span className="badge-icon">{link.icon}</span>
@@ -74,7 +100,7 @@ export default function Layout() {
         <button className="btn danger" onClick={handleLogout}>Logout</button>
       </aside>
 
-      <main className="content">
+      <main className="content" onClick={closeMobileNav}>
         <Outlet />
       </main>
     </div>

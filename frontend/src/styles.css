@@ -3135,3 +3135,265 @@ td {
 [data-theme="dark"] .login-designer-credit {
   color: #f2dbc7;
 }
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobile-nav-toggle,
+.mobile-nav-close {
+  display: none;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+.sidebar-mobile-head {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "topbar"
+      "content";
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .topbar-actions {
+    justify-content: space-between;
+  }
+
+  .mobile-nav-toggle,
+  .mobile-nav-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(290px, 82vw);
+    z-index: 90;
+    transform: translateX(-105%);
+    transition: transform 0.24s ease;
+    overflow-y: auto;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 0;
+    padding-top: 1rem;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-mobile-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0 1rem 0.9rem;
+    margin-bottom: 0.35rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(32, 10, 10, 0.44);
+    z-index: 80;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 760px) {
+  html {
+    font-size: 15px;
+  }
+
+  .content {
+    padding: 0.8rem;
+  }
+
+  .page-head-row,
+  .panel-head-row,
+  .chart-group-head,
+  .toolbar,
+  .dashboard-hero-actions,
+  .projector-toolbar,
+  .action-cell {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-cell .btn,
+  .toolbar .btn,
+  .dashboard-hero-actions .btn,
+  .projector-toolbar .btn,
+  .topbar-actions > * {
+    width: 100%;
+  }
+
+  .brand {
+    align-items: flex-start;
+  }
+
+  .brand-text strong {
+    font-size: 0.88rem;
+  }
+
+  .brand-text span {
+    font-size: 0.76rem;
+  }
+
+  .school-logo {
+    height: 42px;
+  }
+
+  .dashboard-hero,
+  .dashboard-grid,
+  .results-main-grid,
+  .results-summary-grid,
+  .chart-add-grid,
+  .quick-action-grid,
+  .result-query-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .main-dashboard-hero {
+    min-height: auto;
+  }
+
+  .dashboard-logo-ring {
+    width: min(180px, 54vw);
+  }
+
+  .dashboard-stats-row,
+  .stats-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-events-list,
+  .leaderboard-cards,
+  .hero-badge-stack,
+  .results-leader-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .result-summary-card,
+  .results-leader-card,
+  .dashboard-leader-row,
+  .house-overview-card,
+  .quick-action-card,
+  .dashboard-event-card {
+    padding: 0.9rem;
+  }
+
+  .projector-page {
+    padding: 0.8rem;
+  }
+
+  .projector-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .projector-points,
+  .projector-rank {
+    text-align: center;
+  }
+
+  .card,
+  .stat-card,
+  .chart-section-card,
+  .result-view-card,
+  .results-side-card,
+  .import-preview-wrap,
+  .projector-events-card {
+    overflow-x: auto;
+  }
+
+  table {
+    display: block;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 540px) {
+  .stats-row,
+  .dashboard-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding: 0.8rem 0.85rem;
+  }
+
+  .top-search input,
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 0.95rem;
+  }
+
+  .login-v3-card {
+    width: min(100%, 94vw);
+    padding: 1.1rem;
+  }
+
+  .login-theme-bar {
+    width: min(100%, 94vw);
+  }
+
+  .result-summary-card strong,
+  .stat-card p {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar-actions {
+    justify-content: space-between;
+  }
+
+  .topbar-actions .admin-badge {
+    width: 40px;
+  }
+
+  .topbar-actions .mobile-nav-toggle {
+    width: auto;
+    min-width: 96px;
+  }
+}
