@@ -12,7 +12,7 @@ SET name = EXCLUDED.name,
 INSERT INTO admins (email, password_hash, full_name)
 VALUES (
   'admin@school.local',
-  '$2a$10$KJvL5M9F9uY8SCvVgP95jOkKPNB9PK4E7h5f/qtAlyR9WCj5NAQ7C',
+  '$2a$10$KpVkU8IJ.OqoJB7pEXsruuaR5pUkSRgb7AYzOdPQmuvbe95Gz8fxK',
   'Sports Meet Administrator'
 )
 ON CONFLICT (email) DO NOTHING;
