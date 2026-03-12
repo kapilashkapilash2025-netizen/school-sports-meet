@@ -17,7 +17,7 @@ export async function loginAdmin(email, password) {
     throw Object.assign(new Error("Invalid credentials"), { statusCode: 401 });
   }
 
-  const token = jwt.sign({ sub: admin.id, email: admin.email }, env.jwtSecret, {
+  const token = jwt.sign({ sub: admin.id, email: admin.email, fullName: admin.full_name }, env.jwtSecret, {
     expiresIn: env.jwtExpiresIn
   });
 

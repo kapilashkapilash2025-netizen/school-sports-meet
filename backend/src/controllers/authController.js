@@ -19,7 +19,7 @@ export async function login(req, res, next) {
 
     res.cookie("admin_token", data.token, getCookieOptions());
 
-    res.json({ admin: data.admin });
+    res.json({ admin: data.admin, token: data.token });
   } catch (error) {
     next(error);
   }

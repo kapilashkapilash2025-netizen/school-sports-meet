@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import api from "../api/client";
+import api, { getStoredToken, setAuthToken } from "../api/client";
 
 const AuthContext = createContext(null);
 
@@ -9,10 +9,17 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const load = async () => {
+      const token = getStoredToken();
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const { data } = await api.get("/auth/me");
         setAdmin(data.admin);
       } catch {
+        setAuthToken(null);
         setAdmin(null);
       } finally {
         setLoading(false);
@@ -27,11 +34,16 @@ export function AuthProvider({ children }) {
       loading,
       async login(email, password) {
         const { data } = await api.post("/auth/login", { email, password });
+        setAuthToken(data.token);
         setAdmin(data.admin);
       },
       async logout() {
-        await api.post("/auth/logout");
-        setAdmin(null);
+        try {
+          await api.post("/auth/logout");
+        } finally {
+          setAuthToken(null);
+          setAdmin(null);
+        }
       }
     }),
     [admin, loading]
