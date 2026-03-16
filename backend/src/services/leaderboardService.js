@@ -2,6 +2,10 @@ import { db, query } from "../config/db.js";
 
 const OFFICIAL_SOURCE_KEY = "official_sheet_2026";
 const DEFAULT_CHART_GROUP = "PRIMARY";
+const CACHE_TTL_MS = 5000;
+
+const leaderboardCache = { value: null, expiresAt: 0 };
+const eventBreakdownCache = { value: null, expiresAt: 0 };
 
 const OFFICIAL_SHEET_ROWS = [
   ["Vipulanthar", "Volleyball Boys", "Group Game", 10],
@@ -34,6 +38,23 @@ const OFFICIAL_SHEET_ROWS = [
   ["Navalar", "Ella Girls", "Group Game", 5],
   ["Bharathi", "Ella Girls", "Group Game", 10]
 ];
+
+function readCache(cache) {
+  return cache.value && cache.expiresAt > Date.now() ? cache.value : null;
+}
+
+function writeCache(cache, value) {
+  cache.value = value;
+  cache.expiresAt = Date.now() + CACHE_TTL_MS;
+  return value;
+}
+
+export function invalidateLeaderboardCaches() {
+  leaderboardCache.value = null;
+  leaderboardCache.expiresAt = 0;
+  eventBreakdownCache.value = null;
+  eventBreakdownCache.expiresAt = 0;
+}
 
 function normalizeHouseName(value) {
   return String(value || "")
@@ -157,6 +178,7 @@ export async function addManualEvent(eventName, eventTypeInput, chartGroupInput)
     client.release();
   }
 
+  invalidateLeaderboardCaches();
   return getEventPointsBreakdown();
 }
 
@@ -202,6 +224,7 @@ export async function saveManualEventPoints(updates) {
     client.release();
   }
 
+  invalidateLeaderboardCaches();
   return getLeaderboard();
 }
 
@@ -217,6 +240,7 @@ export async function deleteManualEvents(eventIds) {
   }
 
   await query("DELETE FROM manual_events WHERE id = ANY($1::int[])", [normalizedIds]);
+  invalidateLeaderboardCaches();
   return getEventPointsBreakdown();
 }
 
@@ -258,10 +282,16 @@ export async function upsertOfficialSheetPoints() {
     client.release();
   }
 
+  invalidateLeaderboardCaches();
   return getLeaderboard();
 }
 
 export async function getLeaderboard() {
+  const cached = readCache(leaderboardCache);
+  if (cached) {
+    return cached;
+  }
+
   const result = await query(
     `
       SELECT
@@ -310,7 +340,7 @@ export async function getLeaderboard() {
     [OFFICIAL_SOURCE_KEY]
   );
 
-  return result.rows;
+  return writeCache(leaderboardCache, result.rows);
 }
 
 export async function getHouseChampion() {
@@ -319,6 +349,11 @@ export async function getHouseChampion() {
 }
 
 export async function getEventPointsBreakdown() {
+  const cached = readCache(eventBreakdownCache);
+  if (cached) {
+    return cached;
+  }
+
   const result = await query(`
     SELECT
       me.id AS event_id,
@@ -362,7 +397,7 @@ export async function getEventPointsBreakdown() {
     });
   }
 
-  return Array.from(grouped.values()).sort((a, b) => {
+  const orderedRows = Array.from(grouped.values()).sort((a, b) => {
     const chartOrder = chartGroupSortValue(a.chart_group) - chartGroupSortValue(b.chart_group);
     if (chartOrder !== 0) return chartOrder;
     if (a.category !== b.category) {
@@ -370,4 +405,6 @@ export async function getEventPointsBreakdown() {
     }
     return a.event_id - b.event_id;
   });
+
+  return writeCache(eventBreakdownCache, orderedRows);
 }

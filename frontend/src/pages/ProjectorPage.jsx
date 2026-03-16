@@ -125,7 +125,7 @@ export default function ProjectorPage() {
 
   useEffect(() => {
     loadAll();
-    const timer = setInterval(loadAll, 2000);
+    const timer = setInterval(loadAll, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -269,3 +269,4 @@ export default function ProjectorPage() {
     </div>
   );
 }
+

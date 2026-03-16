@@ -4,6 +4,24 @@ import { assertEventParticipant, getEventById } from "./eventService.js";
 import { buildScoredEntries } from "./scoringService.js";
 import { normalizeScoringMode } from "../utils/scoringMode.js";
 
+const RESULT_SUMMARY_CACHE_TTL_MS = 5000;
+const resultSummaryCache = { value: null, expiresAt: 0 };
+
+function readResultSummaryCache() {
+  return resultSummaryCache.value && resultSummaryCache.expiresAt > Date.now() ? resultSummaryCache.value : null;
+}
+
+function writeResultSummaryCache(value) {
+  resultSummaryCache.value = value;
+  resultSummaryCache.expiresAt = Date.now() + RESULT_SUMMARY_CACHE_TTL_MS;
+  return value;
+}
+
+function invalidateResultSummaryCache() {
+  resultSummaryCache.value = null;
+  resultSummaryCache.expiresAt = 0;
+}
+
 async function assertFullResultSet(eventId, entries) {
   const participantResult = await query(
     "SELECT student_id FROM event_participants WHERE event_id = $1",
@@ -85,6 +103,7 @@ export async function upsertResults(payload) {
     client.release();
   }
 
+  invalidateResultSummaryCache();
   return getEventResults(payload.event_id);
 }
 
@@ -119,6 +138,11 @@ export async function getHouseResults(houseId) {
 }
 
 export async function getResultSummary() {
+  const cached = readResultSummaryCache();
+  if (cached) {
+    return cached;
+  }
+
   const result = await query(`
     SELECT
       e.id AS event_id,
@@ -132,5 +156,5 @@ export async function getResultSummary() {
     ORDER BY e.event_date DESC
   `);
 
-  return result.rows;
+  return writeResultSummaryCache(result.rows);
 }

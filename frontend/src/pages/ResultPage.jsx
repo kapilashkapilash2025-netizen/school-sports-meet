@@ -42,7 +42,7 @@ export default function ResultPage() {
   useEffect(() => {
     loadEvents();
     loadLeaderboard();
-    const timer = setInterval(loadLeaderboard, 3500);
+    const timer = setInterval(loadLeaderboard, 7000);
     return () => clearInterval(timer);
   }, []);
 
@@ -220,3 +220,4 @@ export default function ResultPage() {
     </div>
   );
 }
+
