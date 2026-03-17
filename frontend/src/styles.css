@@ -3431,3 +3431,81 @@ td {
 .projector-row.is-visible {
   animation: projectorReveal 0.65s ease forwards;
 }
+
+
+html:not([data-theme="dark"]) .projector-board-shell,
+body:not([data-theme="dark"]) .projector-board-shell {
+  background:
+    radial-gradient(circle at top left, rgba(242, 201, 76, 0.24), transparent 26%),
+    linear-gradient(180deg, rgba(255, 250, 244, 0.96), rgba(252, 240, 235, 0.92));
+  border: 1px solid rgba(242, 201, 76, 0.42);
+  box-shadow:
+    0 24px 48px rgba(96, 32, 32, 0.16),
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    inset 0 0 0 1px rgba(139, 46, 46, 0.04);
+}
+
+html:not([data-theme="dark"]) .projector-section-title strong,
+body:not([data-theme="dark"]) .projector-section-title strong {
+  color: #5b2323;
+}
+
+html:not([data-theme="dark"]) .projector-row,
+body:not([data-theme="dark"]) .projector-row {
+  background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(255,247,239,0.82));
+  border: 1px solid rgba(139, 46, 46, 0.12);
+  box-shadow: 0 16px 28px rgba(105, 44, 44, 0.1);
+}
+
+html:not([data-theme="dark"]) .projector-row .projector-rank,
+body:not([data-theme="dark"]) .projector-row .projector-rank {
+  color: #7b2026;
+}
+
+html:not([data-theme="dark"]) .projector-row .projector-house,
+body:not([data-theme="dark"]) .projector-row .projector-house {
+  color: #4f2323;
+}
+
+html:not([data-theme="dark"]) .projector-row .projector-points,
+body:not([data-theme="dark"]) .projector-row .projector-points {
+  color: #b37a00;
+  text-shadow: none;
+}
+
+html:not([data-theme="dark"]) .projector-tone-red,
+body:not([data-theme="dark"]) .projector-tone-red {
+  background-image: linear-gradient(90deg, rgba(214, 40, 40, 0.3), rgba(255, 247, 239, 0.92));
+  border-left: 6px solid rgba(214, 40, 40, 0.82);
+}
+
+html:not([data-theme="dark"]) .projector-tone-green,
+body:not([data-theme="dark"]) .projector-tone-green {
+  background-image: linear-gradient(90deg, rgba(47, 158, 68, 0.28), rgba(245, 255, 244, 0.94));
+  border-left: 6px solid rgba(47, 158, 68, 0.84);
+}
+
+html:not([data-theme="dark"]) .projector-tone-gold,
+body:not([data-theme="dark"]) .projector-tone-gold {
+  background-image: linear-gradient(90deg, rgba(242, 201, 76, 0.34), rgba(255, 252, 240, 0.94));
+  border-left: 6px solid rgba(214, 161, 46, 0.86);
+}
+
+html:not([data-theme="dark"]) .projector-tone-blue,
+body:not([data-theme="dark"]) .projector-tone-blue {
+  background-image: linear-gradient(90deg, rgba(52, 120, 200, 0.28), rgba(243, 248, 255, 0.94));
+  border-left: 6px solid rgba(52, 120, 200, 0.82);
+}
+
+html:not([data-theme="dark"]) .projector-tone-maroon,
+body:not([data-theme="dark"]) .projector-tone-maroon {
+  background-image: linear-gradient(90deg, rgba(139, 46, 46, 0.3), rgba(255, 247, 239, 0.92));
+  border-left: 6px solid rgba(139, 46, 46, 0.82);
+}
+
+html:not([data-theme="dark"]) .projector-row.is-hidden,
+body:not([data-theme="dark"]) .projector-row.is-hidden {
+  opacity: 0.24;
+  filter: saturate(0.72) blur(0.6px);
+  transform: scale(0.988);
+}
