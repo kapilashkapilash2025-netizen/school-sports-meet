@@ -9,6 +9,7 @@ const CHART_GROUPS = [
   { key: "PRIMARY", label: "Secondary Events" },
   { key: "SECONDARY", label: "Primary Events" }
 ];
+const REVEAL_SEQUENCE = ["LAST", "THIRD", "SECOND", "FIRST"];
 
 function normalizeKey(value) {
   return String(value || "")
@@ -82,12 +83,30 @@ function buildProjectorCharts(rows) {
   })).filter((group) => group.sections.length > 0);
 }
 
+function getRevealTargetIndex(step, totalRows) {
+  if (totalRows === 0) return null;
+  if (step === "LAST") return totalRows - 1;
+  if (step === "THIRD") return totalRows >= 3 ? 2 : totalRows - 1;
+  if (step === "SECOND") return totalRows >= 2 ? 1 : totalRows - 1;
+  if (step === "FIRST") return 0;
+  return null;
+}
+
+function stepLabel(step) {
+  if (step === "LAST") return "Last Place";
+  if (step === "THIRD") return "3rd Place";
+  if (step === "SECOND") return "2nd Place";
+  if (step === "FIRST") return "1st Place";
+  return "Final Reveal";
+}
+
 export default function ProjectorPage() {
   const [rows, setRows] = useState([]);
   const [eventBreakdown, setEventBreakdown] = useState([]);
   const [currentEvent, setCurrentEvent] = useState("Waiting for latest event result...");
   const [countdown, setCountdown] = useState(null);
-  const [revealed, setRevealed] = useState(false);
+  const [revealStepIndex, setRevealStepIndex] = useState(-1);
+  const [revealedIndexes, setRevealedIndexes] = useState([]);
 
   const sortedRows = useMemo(
     () => [...rows].sort((a, b) => Number(b.total_points) - Number(a.total_points)),
@@ -97,6 +116,8 @@ export default function ProjectorPage() {
   const projectorCharts = useMemo(() => buildProjectorCharts(eventBreakdown), [eventBreakdown]);
   const champion = sortedRows[0] || null;
   const podiumRows = sortedRows.slice(0, 3);
+  const nextStep = REVEAL_SEQUENCE[Math.min(revealStepIndex + 1, REVEAL_SEQUENCE.length - 1)];
+  const revealFinished = revealStepIndex >= REVEAL_SEQUENCE.length - 1;
 
   const loadLeaderboard = async () => {
     const { data } = await api.get("/leaderboard");
@@ -129,23 +150,36 @@ export default function ProjectorPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const startFinalReveal = () => {
+  const runNextRevealStep = () => {
     if (countdown !== null) return;
 
-    setRevealed(false);
-    setCountdown(3);
+    const nextIndex = revealStepIndex + 1;
+    if (nextIndex >= REVEAL_SEQUENCE.length) return;
+
+    const step = REVEAL_SEQUENCE[nextIndex];
+    setCountdown({ value: 3, step });
 
     const timer = setInterval(() => {
-      setCountdown((value) => {
-        if (value === null) return null;
-        if (value <= 1) {
+      setCountdown((current) => {
+        if (!current) return null;
+        if (current.value <= 1) {
           clearInterval(timer);
-          setRevealed(true);
+          const revealIndex = getRevealTargetIndex(step, sortedRows.length);
+          if (revealIndex !== null) {
+            setRevealedIndexes((prev) => (prev.includes(revealIndex) ? prev : [...prev, revealIndex]));
+          }
+          setRevealStepIndex(nextIndex);
           return null;
         }
-        return value - 1;
+        return { ...current, value: current.value - 1 };
       });
     }, 1000);
+  };
+
+  const resetReveal = () => {
+    setCountdown(null);
+    setRevealStepIndex(-1);
+    setRevealedIndexes([]);
   };
 
   const enterFullscreen = async () => {
@@ -156,7 +190,7 @@ export default function ProjectorPage() {
   };
 
   return (
-    <div className={`projector-page ${revealed ? "revealed" : ""}`}>
+    <div className={`projector-page ${revealedIndexes.length > 0 ? "revealed" : ""}`}>
       <div className="projector-backdrop-orb projector-backdrop-one" />
       <div className="projector-backdrop-orb projector-backdrop-two" />
 
@@ -177,7 +211,10 @@ export default function ProjectorPage() {
 
       <div className="projector-toolbar">
         <button className="btn" onClick={enterFullscreen}>Enter Full Screen</button>
-        <button className="btn" onClick={startFinalReveal}>Final Result Reveal</button>
+        <button className="btn" onClick={runNextRevealStep} disabled={countdown !== null || revealFinished}>
+          {countdown ? `Revealing ${countdown.step}...` : revealFinished ? "All Places Revealed" : `Reveal ${stepLabel(nextStep)}`}
+        </button>
+        <button className="btn secondary" onClick={resetReveal} disabled={countdown !== null && countdown.value > 0}>Reset Reveal</button>
       </div>
 
       <section className="projector-hero-stage">
@@ -212,12 +249,12 @@ export default function ProjectorPage() {
           {sortedRows.map((row, index) => {
             const rank = index + 1;
             const isChampion = rank === 1;
+            const isRevealed = revealedIndexes.includes(index);
 
             return (
               <article
                 key={row.id}
-                className={`projector-row ${houseToneClass(row.house_name)} ${isChampion ? "champion" : ""}`}
-                style={{ animationDelay: `${index * 0.15}s` }}
+                className={`projector-row ${houseToneClass(row.house_name)} ${isChampion ? "champion" : ""} ${isRevealed ? "is-visible" : "is-hidden"}`}
               >
                 <div className="projector-rank">{ordinalLabel(rank)}</div>
                 <div className="projector-house">{row.house_name}</div>
@@ -263,10 +300,12 @@ export default function ProjectorPage() {
 
       {countdown !== null && (
         <div className="projector-countdown-overlay">
-          <div className="projector-countdown-number">{countdown}</div>
+          <div className="projector-countdown-stack">
+            <div className="projector-countdown-label">{stepLabel(countdown.step)}</div>
+            <div className="projector-countdown-number">{countdown.value}</div>
+          </div>
         </div>
       )}
     </div>
   );
 }
-

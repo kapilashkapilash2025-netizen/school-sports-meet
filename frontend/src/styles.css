@@ -3397,3 +3397,37 @@ td {
     min-width: 96px;
   }
 }
+
+.projector-countdown-stack {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+}
+
+.projector-countdown-label {
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(242, 201, 76, 0.34);
+  color: #ffe9aa;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.projector-row.is-hidden {
+  opacity: 0.08;
+  filter: blur(1px);
+  transform: scale(0.985);
+}
+
+.projector-row.is-hidden .projector-rank,
+.projector-row.is-hidden .projector-house,
+.projector-row.is-hidden .projector-points {
+  visibility: hidden;
+}
+
+.projector-row.is-visible {
+  animation: projectorReveal 0.65s ease forwards;
+}
