@@ -2,7 +2,7 @@
 
 Production-ready full-stack system for school administrators.
 
-## Stack
+## Stackdnjkslfnjsdf
 - Frontend: React + Vite
 - Backend: Node.js + Express
 - Database: PostgreSQL
