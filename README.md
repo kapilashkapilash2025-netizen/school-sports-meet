@@ -11,7 +11,7 @@ Production-ready full-stack system for school administrators.
 
 ```text
 /frontend
-/backend
+/backenduguiguigui
 /database
   schema.sql
   seed.sql
